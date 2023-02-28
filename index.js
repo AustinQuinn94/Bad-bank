@@ -1,8 +1,7 @@
 var express = require('express');
 var app     = express();
 var cors    = require('cors');
-const dal     = require('./dal.js');
-const admin = require('./admin.js')
+const dal   = require('./dal.js');
 
 app.use(express.static('public'));
 app.use(cors());
@@ -102,3 +101,21 @@ app.get('/account/all', function(req,res){
 var port = 3000
 app.listen(port);
 console.log('Running on port: ' + port);
+
+module.exports = function(api, options) {
+    return {
+      presets: [
+        [
+          "@babel/preset-env",
+          {
+            targets: {
+              node: "current"
+            }
+          }
+        ]
+      ],
+      plugins: [
+        "@babel/plugin-transform-arrow-functions"
+      ]
+    };
+  };
