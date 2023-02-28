@@ -6,7 +6,7 @@ import Form from 'react-bootstrap/Form';
 
 function Deposit(){
   const ctx = React.useContext(UserContext);
-  const [withdraw, setwithdraw]         = React.useState("");
+  const [withdraw, setWithdraw]         = React.useState("");
   const [response ,setResponse]= React.useState('');
   const [buttonDisabled, setButtonDisabled]         = React.useState(true);
   const [email, setEmail] = React.useState('');
@@ -14,19 +14,20 @@ function Deposit(){
   var username = '';
 
   function validateWithdraw (){
-    console.log(typeof(deposit))
-    if (typeof(deposit) == "string"){
+    console.log(typeof(withdraw))
+    if (typeof(withdraw) == "string"){
       setResponse("Value deposited must be numeric, barter is not accepted")
       setButtonDisabled(true);
     }
-    if (deposit < 0){
+    if (withdraw < 0){
       setResponse('Withdrawls are handled in another tab please deposit a positive value of currency');
       setButtonDisabled(true);
     }
-    if (deposit > 0){
+    if (withdraw > 0){
       setButtonDisabled(false);
       setResponse("");
     }
+  };
   
 
   function handleDeposit(){
@@ -44,7 +45,7 @@ function Deposit(){
     }});
   };
   function clearDeposit(){
-    setDeposit('')
+    setWithdraw('')
     setEmail('')
     setResponse('Deposit accepted, balance updated')
   };
