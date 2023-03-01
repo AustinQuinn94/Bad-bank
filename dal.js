@@ -1,3 +1,5 @@
+const { ajaxPrefilter } = require('jquery');
+
 const MongoClient = require('mongodb').MongoClient;
 const url         = 'mongodb+srv://AustinQ:Badbankproject@badbank-db-cluster.rbogqwp.mongodb.net/?retryWrites=true&w=majority';
 let db            = null;
@@ -52,7 +54,7 @@ function update(email, amount){
             .findOneAndUpdate(
                 {email: email},
                 { $inc: { balance: amount}},
-                { returnOriginal: false },
+                { returnDocument: "after" },
                 function (err, documents) {
                     err ? reject(err) : resolve(documents);
                 }

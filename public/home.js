@@ -1,18 +1,17 @@
-import Card from 'react-bootstrap/Card';
 function Home() {
   return (
-    <Card style={{ width: '18rem' }}>
-      <Card.Header> BadBank</Card.Header>
-      <Card.Img variant="top" src="/bank.png" />
-      <Card.Body>
-        <Card.Title>Welcome to the bank</Card.Title>
-        <Card.Text>
-          I promise this bank is not a scam, give us all of your data, you may use the nav bar to move around
-        </Card.Text>
-        
-      </Card.Body>
-    </Card>
+    <Card
+      txtcolor="black"
+      header="BadBank"
+      body={(
+        <div>
+          <img src="./logo.svg" className="img-fluid" alt="Responsive image" />
+          <h1>Welcome to the bank</h1>
+          <p>
+            I promise this bank is not a scam, give us all of your data, you may use the nav bar to move around
+          </p>
+        </div>
+      )}
+    />
   );
-}; 
-
-  export default Home
+}
