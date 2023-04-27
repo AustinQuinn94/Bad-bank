@@ -51,7 +51,7 @@ app.get('/account/create/:name/:email/:password', function (req, res) {
         })
 });
 //find user account
-app.get('/account/email', verifyToken, (req, res) => {
+app.get('/account/email', (req, res) => {
     dal.findOne(req.params.email)
         .then(user => {
             console.log(user);

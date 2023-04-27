@@ -37,12 +37,6 @@ console.log(ctx)
               <li className="nav-item">
                 <a className="nav-link" aria-current="page" href="#/withdraw" title="If you must, you may withdraw funds here.">Withdraw</a>
               </li>
-              <li className="nav-item">
-                <a className="nav-link" aria-current="page" href="#/balance" title="Check your balance here, we promise its all there.">Balance</a>
-              </li>
-              <li className="nav-item">
-                <a className="nav-link" aria-current="page" href="#/alldata" title="View the data of all our loyal costomers here! Wait this wasnt supposed to be public, oh well.">All Data</a>
-              </li>
               <li className="nav-item" disabled aria-disabled>
                 <label className="nav-link">Logged in user: {currentUser}</label>
               </li>

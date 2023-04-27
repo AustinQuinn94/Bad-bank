@@ -10,16 +10,21 @@ function Login() {
 
     fetch(`/account/login/${compareemail}/${comparepassword}`)
       .then(response => response.text())
-    ctx.currentuser.email = compareemail
-      // for (var i = 0; i < ctx.users.length; i++) {
-    //   if (ctx.users[i].name === compareemail && ctx.users[i].password === comparepassword) {
-    //     ctx.currentuser = { "name": "INSERT NAME", "email": compareemail };
-    setResponse("Welcome to Bad Bank, " + ctx.users[i].name + "your balance currently is");
-    //     console.info("Logged in");
-    //     return;
-    //   }
-    // }
-    setResponse("Please try again, username password combination not found");
+      .then(text => {
+          try {
+            const data = JSON.parse(text);
+            ctx.currentuser = {
+              email: compareemail,
+              name: data.name
+            }
+            setResponse("Welcome to Bad Bank, " + data.name + "!")
+            console.log('JSON:', data);
+          } catch (err) {
+            setResponse("Unsuccessful login, please try again")
+            console.log('err:', text);
+  
+          }
+        });
   }
 
 

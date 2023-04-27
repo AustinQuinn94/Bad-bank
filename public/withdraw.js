@@ -7,7 +7,7 @@ function Withdraw() {
   var balance = 0;
   var username = '';
   
-  var greeting = "Hello " + username + " your balance currently is $" + balance;
+  var greeting = "Hello welcome to our Withdrawl page";
 
   useEffect(() => {
     validateWithdraw();
@@ -37,7 +37,7 @@ function Withdraw() {
       .then(text => {
         try {
           const data = JSON.parse(text);
-          setResponse(JSON.stringify(data.value.balance))
+          setResponse("Your balance currently equals $" + JSON.stringify(data.value.balance))
           console.log('JSON:', data);
         } catch (err) {
 
@@ -50,7 +50,7 @@ function Withdraw() {
   };
 
   function clearWithdraw() {
-    setWithdraw('');
+    setAmount('');
     setEmail('');
     setResponse('Withdrawl accepted, balance updated');
   };

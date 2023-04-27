@@ -33,12 +33,12 @@ function CreateAccount() {
 
       console.log(data);
       
-      ctx.currentuser = {"name": name, "email": email};
-        
-      clearForm(); 
-      window.alert("Account created. Click ok to create another account");
+      ctx = {"name": name, "email": email};
+      console.log(ctx);
     })();
 
+    clearForm(); 
+    window.alert("Account created. Click ok to create another account");
   };
 
   function validate(field) {

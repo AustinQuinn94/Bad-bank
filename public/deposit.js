@@ -12,7 +12,7 @@ function Deposit() {
     username = ctx.users[ctx.currentuser].name
 
   }
-  var greeting = "Hello " + username + " your balance currenttly is $" + balance;
+  var greeting = "Hello Welcome to our Deposit page";
   useEffect(() => {
     validateDeposit();
   }, [amount]);
@@ -41,7 +41,7 @@ function Deposit() {
       .then(text => {
         try {
           const data = JSON.parse(text);
-          setResponse(JSON.stringify(data.value))
+          setResponse("Your balance currently equals $" + JSON.stringify(data.value.balance))
           console.log('JSON:', data);
         } catch (err) {
 
@@ -51,7 +51,7 @@ function Deposit() {
       });
   };
   function clearDeposit() {
-    setDeposit('')
+    setAmount('')
     setEmail('')
     setResponse('Deposit accepted, balance updated')
   };
