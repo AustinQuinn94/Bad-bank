@@ -1,3 +1,4 @@
+const { event } = require("jquery");
 
 function Login() {
   const ctx = React.useContext(UserContext);
@@ -10,16 +11,34 @@ function Login() {
 
     fetch(`/account/login/${compareemail}/${comparepassword}`)
       .then(response => response.text())
-    ctx.currentuser.email = compareemail
-      // for (var i = 0; i < ctx.users.length; i++) {
-    //   if (ctx.users[i].name === compareemail && ctx.users[i].password === comparepassword) {
-    //     ctx.currentuser = { "name": "INSERT NAME", "email": compareemail };
-    setResponse("Welcome to Bad Bank, " + ctx.users[i].name + "your balance currently is");
-    //     console.info("Logged in");
-    //     return;
-    //   }
-    // }
-    setResponse("Please try again, username password combination not found");
+      .then(text => {
+          try {
+            const data = JSON.parse(text);
+            if (typeof data.success !== "undefined" && data.success === false) {
+              setResponse("Unsuccessful login, please try again");
+            } else {
+              ctx.currentuser = {
+                email: compareemail,
+                name: data.name,
+                balance: data.balance
+              }
+              setResponse("Welcome to Bad Bank, " + data.name + "!")
+              console.log('JSON:', data);
+            }
+          } catch (err) {
+            console.log(err)
+            setResponse("Unsuccessful login, please try again")
+            console.log('err:', text);
+  
+          }
+        });
+    setCompareEmail('');
+    setComparePassword('');
+  }
+  function logout() {
+    event.preventDefault();
+    ctx.currentuser = undefined;
+    setResponse("Logged out!");
   }
 
 
@@ -27,7 +46,7 @@ function Login() {
     <Card
       txtcolor="black"
       header="Login"
-      body={(
+      body={!ctx.currentuser?(
         <div>
           <form>
             <div class="form-group">
@@ -44,6 +63,12 @@ function Login() {
             <button type="submit" class="btn btn-primary" onClick={e => verification()}>Log in</button>
           </form>
         </div>
-      )} />
+      ):<div>
+      <form>
+        <label>Welcome! You are currently logged in!</label>
+
+        <button type="submit" class="btn btn-primary" onClick={e => logout()}>Log Out</button>
+      </form>
+    </div>} />
   )
 }

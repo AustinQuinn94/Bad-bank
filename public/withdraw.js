@@ -4,10 +4,11 @@ function Withdraw() {
   const [response, setResponse] = React.useState('');
   const [buttonDisabled, setButtonDisabled] = React.useState(true);
   const [email, setEmail] = React.useState('');
-  var balance = 0;
-  var username = '';
   
-  var greeting = "Hello " + username + " your balance currently is $" + balance;
+  var greeting = "Hello! Welcome to our Withdrawl page";
+  if (!email && ctx.currentuser) {
+    setEmail(ctx.currentuser.email)
+  }
 
   useEffect(() => {
     validateWithdraw();
@@ -37,12 +38,10 @@ function Withdraw() {
       .then(text => {
         try {
           const data = JSON.parse(text);
-          setResponse(JSON.stringify(data.value.balance))
           console.log('JSON:', data);
+          setResponse("Your balance currently equals $" + JSON.stringify(data.value.balance));
         } catch (err) {
-
           console.log('err:', text);
-
         }
       });
       clearWithdraw();
@@ -50,13 +49,13 @@ function Withdraw() {
   };
 
   function clearWithdraw() {
-    setWithdraw('');
+    setAmount('');
     setEmail('');
     setResponse('Withdrawl accepted, balance updated');
   };
 
   return (
-    <Card
+    ctx.currentuser?<Card
       txtcolor="black"
       header={greeting}
       body={(
@@ -64,16 +63,24 @@ function Withdraw() {
           <form>
             <div class="form-group">
               <label for="exampleInputEmail1">Email address</label>
-              <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email" value={email} onChange={e => { setEmail(e.target.value) }} />
+              <input type="email" class="form-control" id="exampleInputEmail1" readOnly disabled aria-describedby="emailHelp" placeholder="Enter email" value={email} onChange={e => { setEmail(e.target.value) }} />
               <small id="emailHelp" class="form-text text-muted">{email}</small>
             </div>
             <div class="form-group">
-              <label for="enter username">Enter deisered deposit amount</label>
+              <label for="enter username">Enter desired deposit amount</label>
               <input type="username" class="form-control" id="name" aria-describedby="usernameHelp" placeholder="Withdraw your currency" value={amount} onChange={e => { setAmount(e.target.value) }} />
               <small id="passwordHelp" class="form-text text-danger">{response}</small>
             </div>
             <button type="submit" class="btn btn-primary" disabled={buttonDisabled} onClick={e => handleWithdraw()}>Withdraw</button>
           </form>
+        </div>
+      )}
+    />:
+    <Card
+      txtcolor="black"
+      header={"Please log in to perform a withdrawl!"}
+      body={(
+        <div>
         </div>
       )}
     />

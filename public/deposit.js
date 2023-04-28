@@ -4,15 +4,13 @@ function Deposit() {
   const [response, setResponse] = React.useState('');
   const [buttonDisabled, setButtonDisabled] = React.useState(true);
   const [email, setEmail] = React.useState('');
-  var balance = 0;
-  var username = '';
 
-  if (ctx.currentuser != null) {
-    balance = ctx.users[ctx.currentuser].balance
-    username = ctx.users[ctx.currentuser].name
 
+  var greeting = "Hello! Welcome to our Deposit page.";
+  if (!email && ctx.currentuser) {
+    setEmail(ctx.currentuser.email)
   }
-  var greeting = "Hello " + username + " your balance currenttly is $" + balance;
+
   useEffect(() => {
     validateDeposit();
   }, [amount]);
@@ -41,7 +39,7 @@ function Deposit() {
       .then(text => {
         try {
           const data = JSON.parse(text);
-          setResponse(JSON.stringify(data.value))
+          setResponse("Your balance currently equals $" + JSON.stringify(data.value.balance))
           console.log('JSON:', data);
         } catch (err) {
 
@@ -51,11 +49,12 @@ function Deposit() {
       });
   };
   function clearDeposit() {
-    setDeposit('')
+    setAmount('')
     setEmail('')
     setResponse('Deposit accepted, balance updated')
   };
   return (
+    ctx.currentuser?
     <Card
       txtcolor="black"
       header={greeting}
@@ -64,7 +63,7 @@ function Deposit() {
           <form>
             <div class="form-group">
               <label for="exampleInputEmail1">Email address</label>
-              <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email" value={email} onChange={e => { setEmail(e.target.value) }} />
+              <input type="email" class="form-control" readOnly disabled id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email" value={email} onChange={e => { setEmail(e.target.value) }} />
               <small id="emailHelp" class="form-text text-muted">{email}</small>
             </div>
             <div class="form-group">
@@ -74,6 +73,14 @@ function Deposit() {
             </div>
             <button type="submit" class="btn btn-primary" disabled={buttonDisabled} onClick={r => { handleDeposit(); clearDeposit(); window.alert("Deposit Succsessful") }}>Deposit</button>
           </form>
+        </div>
+      )}
+    />:
+    <Card
+      txtcolor="black"
+      header={"Please log in to perform a deposit!"}
+      body={(
+        <div>
         </div>
       )}
     />

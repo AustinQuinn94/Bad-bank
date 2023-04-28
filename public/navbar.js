@@ -1,15 +1,9 @@
 function NavBar() {
-
+  const ctx = React.useContext(UserContext);
   const [active, setActive] = React.useState('default');
 
-  const ctx = React.useContext(UserContext);
-  var currentUser = 'nobody';
-  if (ctx != null && ctx.currentuser != null) {
-      currentUser = ctx.email
-      
-  }
 
-console.log(ctx)
+  console.log("navbar:" + JSON.stringify(ctx))
   return (
     <>
       <nav className="navbar navbar-expand-lg navbar-light" aria-activedescendant={active}>
@@ -29,7 +23,7 @@ console.log(ctx)
                 <a className="nav-link" aria-current="page" href="#/createaccount" title="Sign up for an acount with us here. You are safe with us!">Create Account</a>
               </li>
               <li className="nav-item">
-                <a className="nav-link" aria-current="page" href="#/login" title="Welcome back valued customer! log in here.">Log In</a>
+                <a className="nav-link" aria-current="page" href="#/login" title="Welcome back valued customer! Manage log-in here.">Log In/Out</a>
               </li>
               <li className="nav-item">
                 <a className="nav-link" aria-current="page" href="#/deposit" title="Deposit any and all of your money here.">Deposit</a>
@@ -37,19 +31,8 @@ console.log(ctx)
               <li className="nav-item">
                 <a className="nav-link" aria-current="page" href="#/withdraw" title="If you must, you may withdraw funds here.">Withdraw</a>
               </li>
-              <li className="nav-item">
-                <a className="nav-link" aria-current="page" href="#/balance" title="Check your balance here, we promise its all there.">Balance</a>
-              </li>
-              <li className="nav-item">
-                <a className="nav-link" aria-current="page" href="#/alldata" title="View the data of all our loyal costomers here! Wait this wasnt supposed to be public, oh well.">All Data</a>
-              </li>
               <li className="nav-item" disabled aria-disabled>
-                <label className="nav-link">Logged in user: {currentUser}</label>
-              </li>
-            </ul>
-            <ul classname = "nav navbar-collapse navbar-right m1-auto">
-              <li className="nav-item">
-                <label className="nav-link">Logged in user: {currentUser}</label>
+                <label className="nav-link">Logged in user: {''}</label>
               </li>
             </ul>
           </div>
