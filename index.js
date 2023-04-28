@@ -15,11 +15,11 @@ async function verifyToken(req, res, next) {
                 console.log("Decoded Token:", decodedToken);
                 return next();
             }).catch(err => {
-                return res.status(401).send('Unauthorized');
+                return res.status(401).send({success: false, error: {message: 'Unauthorized'}});
             })
     }
     else {
-        return res.status(401).send('No Token Found')
+        return res.status(401).send({success: false, error: {message: 'No Token Found'}})
     }
 }
 
@@ -33,25 +33,21 @@ app.get('/account/create/:name/:email/:password', function (req, res) {
 
             // if user exists, return error message
             if (users.length > 0) {
-                console.log('User already in exists');
-                res.send('User already in exists');
+                console.log('User already exists');
+                res.status(401).send({success: false, error: {message: 'User already exists'}});
             }
             else {
 
                 dal.create(params.name, params.email, params.password)
                     .then(user => {
                         console.log(user);
-                        res.send(user)
+                        res.status(200).send(user)
                     });
-                // res.send({
-                //   name:     req.params.name,
-                // email:    req.params.email,
-                // password: req.params.password,
             }
         })
 });
 //find user account
-app.get('/account/email', verifyToken, (req, res) => {
+app.get('/account/email', (req, res) => {
     dal.findOne(req.params.email)
         .then(user => {
             console.log(user);
@@ -70,11 +66,11 @@ app.get('/account/login/:email/:password', function (req, res) {
                     res.send(user[0]);
                 }
                 else {
-                    res.send('Login failed: wrong password');
+                    res.send({success: false, error: {message: 'Login failed: wrong password'}});
                 }
             }
             else {
-                res.send('Login failed: user not found');
+                res.send({success: false, error: {message: 'Login failed: user not found'}});
             }
         });
 

@@ -5,6 +5,9 @@ const useEffect = React.useEffect;
 const UserContext = React.createContext(null);
 
 
+const [loggedIn, setLoggedIn] = React.useState('');
+
+
 function Card(props) {
   function classes() {
     const bg = props.bgcolor ? ' bg-' + props.bgcolor : ' ';
@@ -25,4 +28,10 @@ function Card(props) {
   );
 }
 
-
+function getLogin() {
+  if (loggedIn) {
+    return loggedIn
+  } else {
+    return ''
+  }
+}

@@ -22,6 +22,7 @@ function CreateAccount() {
   //firebase.initializeApp(firebaseConfig)
   //}
 
+
   function handle() {
     event.preventDefault();
 
@@ -29,16 +30,22 @@ function CreateAccount() {
     const url = `/account/create/${name}/${email}/${password}`;
     (async () => {
       var res = await fetch(url);
-      var data = await res.json();
-
-      console.log(data);
       
-      ctx.currentuser = {"name": name, "email": email};
-        
-      clearForm(); 
-      window.alert("Account created. Click ok to create another account");
-    })();
+      var data = await res.json();
+      console.log(data);
 
+      if(typeof data.success !== "undefined" && data.success === false) {
+        setPasswordstatus(data.error.message)
+      } else {
+        ctx.currentuser = {"name": name, "email": email};
+        console.log(ctx);
+
+        
+        clearForm();
+        window.alert("Account created. Click ok to create another account");
+      }
+    })();
+ 
   };
 
   function validate(field) {
@@ -108,7 +115,7 @@ function CreateAccount() {
     <Card
       txtcolor="black"
       header="Create your account"
-      body={(
+      body={!ctx.currentuser?(
         <div>
           <form>
             <div class="form-group">
@@ -129,7 +136,10 @@ function CreateAccount() {
             <button type="submit" class="btn btn-primary" disabled={buttonDisabled} onClick={e => handle()}>Create Account</button>
           </form>
         </div>
-      )}
+      ):<div>
+        <label>There is currently a logged in user! Please log out to create new accounts.</label>
+      </div>
+    }
     />
   )
 }
